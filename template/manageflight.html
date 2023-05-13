@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>manageflight</title>
+        <!-- tailwind cdn link -->
+        <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <!-- add blow three cdn link for run autoserch feature -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+      <div class="container mx-auto py-6 bg-purple-400 w-8/12 min-h-screen">
+        <div class="flex justify-between gap-x-4">
+          <h2 class="text-5xl mx-auto font-serif font-bold">Manage Flight</h2>
+          
+
+          <!-- <button class="btn bg-white py-2 px-4 rounded">Add Flight</button> -->
+          <button onclick="redirectTo('{{window.location.host}}/manageflight/add/{{Airline_id}}')" class="flex items-center justify-center outline-none rounded-md px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-md transition-all duration-1000 ease-in-out hover:border-2 border-transparent hover:border-black shadow-xl">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-2a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM9 9V6a1 1 0 1 1 2 0v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3z" clip-rule="evenodd" />
+            </svg>
+            Add Flight
+          </button>
+          <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+            Back To Home
+          </a>
+        </div>
+        {% for i in flights %}
+        <div class="my-2 bg-white rounded-lg border-2 border-dark shadow-md p-2">
+          <h3 class="text-lg font-bold">Flight Id : <span class="font-normal">{{i.flight_id}}</span></h3>
+            <div class="mt-4 flex justify-between items-center space-x-4">
+              <p><strong>Flight Route : </strong>{{i.route_des}}</p>
+              <p><strong>Capacity : </strong> {{i.Capacity}}</p>
+              <p><strong>Total Time Duration : </strong>{{i.Duration}}</p>
+              <button onclick="redirectTo('{{window.location.host}}/manageflight/update/{{i.flight_id}}')" class="flex items-center justify-center outline-none rounded-md px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-md transition-all duration-1000 ease-in-out hover:border-2 border-transparent hover:border-black shadow-xl">
+                  Update Flight
+              </button>
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+</body>
+<script>
+
+    function redirectTo(url) {
+      window.location.href = url;
+    }
+</script>
+</html>

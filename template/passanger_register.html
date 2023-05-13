@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body class="bg-blue-400 ">
+    <!-- <img src="../media/media/download_3.jpg" alt=""> -->
+    <!-- // navbar  -->
+    {% include 'min_nav.html' %}
+    <!-- flight review page  -->
+    <div class="flex justify-evenly text-center h-28  w-full bg-gray-300">
+      <div class="flex items-center py-4">
+        <img src="/media/{{flight_object.Airline_logo}}" alt="Airline Logo" class="w-20 h-20 ">
+        <h3 class="text-lg font-medium font-extrabold mb-2">{{flight_object.Airline_name}}</h3>
+      </div>
+      <div class="flex justify-between items-center font-extrabold items-center gap-x-10">
+          <p>{{flight_object.Flightname1}}</p>
+          <p class="text-xl font-medium">{{flight_object.Timeduration}}</p>
+          <p>{{flight_object.Flightname2}}</p>
+      </div>
+    </div>
+    {{ Wallet_balance|json_script:'Wallet_balance' }}
+    {{ Total_price |json_script:'total_price' }}
+    <div class="w-full bg-gree">
+      <form action="/bookticket/{{flight_object.Temparal_ID}}/{{No_ticket}}" id="final_form" method="post">
+        {% csrf_token %}
+      <div class="flex flex-col items-center gap-y-4 justify-center pt-4">
+        <h1 class="text-3xl bg-indigo-600 p-3 font-serif text-white shadow-2xl font-bold">Add Passenger Details</h1>
+        <div class="flex flex-col items-center justify-between w-full mt-4">
+          <div class="flex flex-col">
+            {% for i in number_list %}
+            <h2 class="text-md font-semibold my-2">Passenger {{i}}:</h2>
+            <div class="flex flex-row items-center gap-x-10 justify-between w-full ">
+              <input name="p_{{i}}_name" required class="min-w-56 border-2 focus:border-black focus:outline-none p-2"      type="text" placeholder="Name">
+              <input name="p_{{i}}_dob" required class=" border-2 focus:border-black focus:outline-none p-2 ml-2"   type="date" placeholder="DOB"        >
+              <select required class="shadow-2xl   border-2 focus:border-black focus:outline-none p-2 ml-2"  placeholder="Gender"    name="p_{{i}}_gender">
+                <option disabled>Choose Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>              
+            </div>
+            {% endfor %}
+          </div>
+          <div class="flex flex-col mt-4">
+            <h2 class="text-md text-center font-bold font-medium">Contact Information:</h2>
+            <div class="flex flex-row items-center gap-x-10 justify-between w-full mt-2">
+              <input class="border-2 focus:border-black focus:outline-none w-64 p-2" required   type="text" placeholder="Phone Number"  required>
+              <input class="border-2 focus:border-black focus:outline-none w-64 p-2 ml-2" required type="email" placeholder="Email Address" required>
+            </div>
+          </div>
+          <div class="flex justify-center items-center mt-4">
+            <div class="bg-white p-8 rounded-lg shadow-2xl flex flex-col items-center">
+              <h1 class="text-2xl  text-center font-bold ">Your wallet Balance: {{Wallet_balance}}</h1>
+              <p class="text-xl  text-center font-bold ">Total Price : {{No_ticket}} * {{flight_price}} = {{Total_price}}  </p>
+              <p class="text-xl  text-center font-bold ">Total passenger : {{No_ticket}} </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-row items-center justify-center mb-8 gap-x-4 w-full mt-4">
+          <a href="/"class="bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg shadow-lg">Back to Home</a>
+          <button id="pay_btn"class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+            Pay Now
+          </button>
+        </div>
+      </form> 
+    </div>
+    <script>
+
+          // handle payment errors
+
+    const final_form = document.getElementById("final_form");
+    const pay_btn = document.getElementById("pay_btn");
+    const Total_price = document.getElementById("total_price").textContent
+    const Wallet_balance = JSON.parse(document.getElementById('Wallet_balance').textContent);
+    console.log(Wallet_balance);
+    console.log(Total_price);
+    pay_btn.addEventListener("click",(e)=>{
+      console.log("click");
+      e.preventDefault();
+      if(Wallet_balance>=Total_price){
+        console.log("yes");
+        final_form.submit()
+      }
+      else{
+        console.log("yes");
+        alert("You have not enough money in your wallet refill Your wallet")
+      }
+    });
+    
+      let dropdownMenu = document.querySelector(".absolute");
+      let dropdownButton = document.querySelector(".relative");
+      dropdownButton.addEventListener("mouseover", function () {
+        dropdownMenu.classList.remove("hidden");
+      });
+      dropdownButton.addEventListener("mouseout", function () {
+        dropdownMenu.classList.add("hidden");
+      });
+         // nav bar feature 
+         // Toggle dropdown menu for flights button
+         function toggleDropdown() {
+        document.getElementById("dropdown").classList.toggle("hidden");
+      }
+      
+      // Toggle dropdown menu for avatar
+      function toggleAvatarDropdown() {
+        document.getElementById("avatar-dropdown").classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

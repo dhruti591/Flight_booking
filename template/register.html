@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body class="bg-blend-color">
+    <div class="flex w-full min-h-screen justify-center items-center">
+      
+          <div class="bg-gray-100 border-2 border-gray-300  rounded-3xl shadow-2xl w-full px-6 py-8 md:w-1/2">
+            <h2 class="text-2xl font-bold text-gray-700 mb-2">
+              Create an account
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Please fill in the fields below to register for an account.
+            </p>
+            <form method="post" action="/auth/register/">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label class="block text-gray-700 font-bold mb-2" for="username">
+                  Username
+                </label>
+                <input id="username" class="border border-gray-300 py-2 px-4 w-full rounded-md" name="username" type="text" required>
+              </div>
+              <div class="mb-3">
+                <label class="block text-gray-700 font-bold mb-2" for="password">
+                  Password
+                </label>
+                <input id="password" class="border border-gray-300 py-2 px-4 w-full rounded-md" name="password" type="password" required>
+              </div>
+              <div class="mb-3">
+                <label class="block text-gray-700 font-bold mb-2" for="email">
+                  Email
+                </label>
+                <input id="email" class="border border-gray-300 py-2 px-4 w-full rounded-md" name="email" type="email" required>
+              </div>
+              <div class="mb-3">
+                <label class="block text-gray-700 font-bold mb-2" for="first_name">
+                  First Name
+                </label>
+                <input id="first_name" class="border border-gray-300 py-2 px-4 w-full rounded-md" name="first_name" type="text" required>
+              </div>
+              <div class="mb-6">
+                <label class="block text-gray-700 font-bold mb-2" for="last_name">
+                  Last Name
+                </label>
+                <input id="last_name" class="border border-gray-300 py-2 px-4 w-full rounded-md" name="last_name" type="text" required>
+              </div>
+              <div class="mb-3">
+                <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit">
+                  Register
+                </button>
+              </div>
+            </form>
+          </div>
+     
+    </div>
+  </body>
+</html>

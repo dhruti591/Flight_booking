@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- tailwind cdn link -->
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- add blow three cdn link for run autoserch feature -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/clockpicker/dist/jquery-clockpicker.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/clockpicker/dist/jquery-clockpicker.min.js"></script>
+</head>
+<body>
+    <div class="container mx-auto py-6 bg-purple-400 w-8/12">
+        <div class="p-4 md:p-8 max-w-xl mx-auto">
+            <form class=" bg-white shadow-lg rounded-lg px-4 py-6 md:p-8" id="update_form" 
+            action="/manageflight/add/success/{{Airline_id}}/" method="POST">
+              {% csrf_token %}
+              <h2 class="text-xl font-medium mb-4">flight detail</h2>
+              <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2" for="routes">Routes</label>
+                <input class="border border-gray-400 p-2 w-full rounded-lg" required type="text" id="routes" name="routes" placeholder="Enter Routes">
+              </div>
+              <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2" for="distance">Distance between airports</label>
+                <input class="border border-gray-400 p-2 w-full rounded-lg" required type="text" id="distance" name="distance" placeholder="Enter Distance">
+                <span class="text-red-500 text-md font-bold block" id="dist_error"></span>
+              </div>
+              <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2" for="total_tickets">Total Tickets</label>
+                <input class="border border-gray-400 p-2 w-full rounded-lg" required type="text" id="total_tickets" name="total_tickets" placeholder="Enter Total Tickets">
+                <span class="text-red-500 text-md font-bold block" id="ticket_error"></span>
+              </div>
+              <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2" for="depart_time">Depart Time</label>
+                <input class="border border-gray-400 p-2 w-full rounded-lg" required type="time"  id="depart_time" name="depart_time">
+              </div>
+              <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg" type="submit">Add Flight</button>
+            </form>
+          </div>
+    </div>
+</body>
+    <script>
+      const check_str_length = (list) =>
+    {
+       for (let str of list) {
+        if (str.length==0 || parseInt(str)<=0)
+          return true;
+       }
+       return false;
+    }
+    const convert_text_to_time = (time)=>
+    {
+        hour = Math.floor(time).toString().padStart(2, '0');
+        min = ((time - hour)*60).toFixed(0).padStart(2, '0');
+        result = hour+":"+min+":00"
+        console.log(result);
+        return result;
+    }
+
+    const routes = document.getElementById('routes');
+    const distance = document.getElementById('distance');
+    const total_tickets = document.getElementById('total_tickets');
+    const depart_time = document.getElementById('depart_time');
+    const update_form = document.getElementById('update_form');
+    const dist_error = document.getElementById('dist_error');
+    const ticket_error = document.getElementById('ticket_error');
+
+    update_form.addEventListener('submit',(event) => {
+    
+    const routes_list = routes.value.split(",")
+    const distance_list = distance.value.split(",")
+
+    console.log(distance_list.length+" "+routes_list.length);
+    if(distance_list.length!=(routes_list.length-1)){
+      dist_error.textContent = "Invalid distance is Exist"
+      console.log('pass1');
+      event.preventDefault();
+    }
+    else if(check_str_length(distance_list) || check_str_length(routes_list))
+    {
+      dist_error.textContent = "Invalid distance is Exist"
+      console.log('pass2');
+      event.preventDefault();
+    }
+    else if(total_tickets.value<0)
+    {
+      ticket_error.textContent = "Didn't assign negative value"
+      console.log('pass3');
+      event.preventDefault();
+    }
+    else{
+      dist_error.textContent = ""
+      console.log('pass4');
+    }
+    // event.preventDefault();
+  });
+    </script>
+</html>

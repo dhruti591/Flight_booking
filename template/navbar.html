@@ -1,0 +1,84 @@
+{% load static %}
+<nav class="sticky hidden sm:flex top-0 z-50  items-center justify-start gap-x-2 px-6 py-3 bg-indigo-600">
+    <!-- Logo and website name -->
+    <div class="flex items-center flex-grow mr-2">
+      <img src={% static '/Travellogo(1).png' %}  alt="flightOH logo" class="h-16 w-16 mr-4">
+      <h1 class="text-white font-bold text-3xl  my-auto">flightOH</h1>
+    </div>
+    <!-- Customer support component -->
+    <a href="/contact_us" class="ml-2  py-2 border-b-4 hover:no-underline border-transparent text-2xl  hover:border-white text-white hover:text-white">Customer Support</a>
+    <!-- Button with toggle dropdown menu -->
+    <div class="relative">
+      <button class="px-1 py-2 border-b-4 text-xl border-transparent hover:border-white text-2xl  text-white hover:text-white focus:outline-none" onclick="toggleDropdown()">
+        For Airlines
+      </button>
+      <div id="dropdown" class="absolute right-0 mt-2 py-2 w-40 bg-white rounded-lg shadow-xl hidden">
+        <a href="#modal" class="block px-2 py-2 text-gray-800 hover:bg-blue-500 hover:text-white" >Manage Flight</a>
+        {% include 'airline_model.html' %}
+        <button class="block w-full text-left px-2 py-2 text-gray-800 hover:bg-blue-500 hover:text-white focus:outline-none" onclick="toggleDropdown()">Close</button>
+      </div>
+    </div>
+    <!-- Avatar with toggle dropdown menu -->
+    {% if user.is_authenticated %}
+    <div class="relative">
+      <button class="flex  flex-col items-center focus:outline-none" onclick="toggleAvatarDropdown()">
+        <img src="/media/{{profile_pic}}" alt="Person" class="h-16 w-16 rounded-full mr-2">
+        <span class="text-white pt-2 text-xl font-bold">{{user.username}}</span>
+      </button>
+      <div id="avatar-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl hidden">
+        <a href="/auth/profile/" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Profile</a>
+        <a href="/auth/logout/" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Logout</a>
+        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Booking history</a>
+        <button class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white focus:outline-none" onclick="toggleAvatarDropdown()">Close</button>
+      </div>
+    </div>
+    {% else %}
+    <div class="px-6 py-3 mx-auto text-white font-bold text-3xl">
+		  <div class="flex items-center justify-between">
+			  <a class="border-b-4 py-2 hover:no-underline border-transparent text-2xl  hover:border-white text-white hover:text-white" href="/auth/register/">Register</a>
+			  <a class="ml-4 border-b-4 py-2  hover:no-underline border-transparent text-2xl  hover:border-white text-white hover:text-white" href="/auth/login/">Log In</a>
+		  </div>
+		</div>
+    {% endif %}
+  </nav>
+
+  <nav class="bg-indigo-600 sm:hidden border-gray-200 dark:bg-gray-900">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <a href="https://flowbite.com/" class="flex items-center">
+          <img src={% static '/Travellogo(1).png' %} class="h-12 mr-3" alt="Flowbite Logo" />
+          <span class="self-center text-2xl  whitespace-nowrap text-white font-bold">flightOH</span>
+      </a>
+      <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+      </button>
+      <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+        <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <li>
+            <a href="/" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"> Home</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+              Customer Support</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">For airlines</a>
+          </li>
+          {% if user.is_authenticated %}
+          <div class="flex  justify-start items-center py-2 pl-3 pr-4 space-x-4">
+            <img src="/media/{{profile_pic}}" class="w-16"alt="No profile">
+            <p class="  text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{{user.username}}</>
+          </div>
+          {% else %}
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register
+            </a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Log In</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>

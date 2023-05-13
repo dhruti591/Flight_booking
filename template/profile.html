@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <!-- Add Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.2/tailwind.min.css">
+</head>
+<body class="bg-gray-300">
+    <div class="max-w-md mx-auto my-8 bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Profile image with shadow effect and round circle -->
+        <div class="flex items-center flex-col">
+          <img class="h-56  rounded-full  object-cover" src="/media/{{profile_pic}}">
+          <form method="post" class="flex my-2" enctype="multipart/form-data" action="/auth/profile/{{user.username}}">
+            {% csrf_token %}
+            <div class="flex justify-between items-center">
+                <input type="file"  name="image">
+                <button type="submit" class="px-4 bg-green-500 text-white foucus:bg-green-800 hover:bg-green-400 rounded  py-2">Upload</button>
+            </div>
+            </form>
+        </div>
+        <!-- Profile information with input fields and change profile button -->
+        <div class="px-6 py-4">
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="username">Username:</label>
+                <input disabled  value="{{user.username}}" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username"  type="text" placeholder="Username">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="first-name">First Name:</label>
+                <input disabled value="{{user.first_name}}" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="first-name" type="text" placeholder="First Name">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="last-name">Last Name:</label>
+                <input disabled value="{{user.last_name}}" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="last-name" type="text" placeholder="Last Name">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="email">Email:</label>
+                <input disabled value="{{user.email}}" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email">
+            </div>
+            <div class="flex items-center justify-end">
+                <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Back To Home
+                  </a>
+              </div>
+              </div>
+              </div>
+              </body>
+              

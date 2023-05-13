@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- add blow three cdn link for run autoserch feature -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="flex gap justify-center items-center h-screen">
+    <div>
+    <p>Congralations flight is added into system</p>
+      <p>Your flight Id is {{flight.Flight_id}}</p>
+      <button onclick="redirectTo('{{window.location.host}}/manageflight/{{flight.Airline_id}}')" class="flex items-center justify-center outline-none rounded-md px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-md transition-all duration-1000 ease-in-out hover:border-2 border-transparent hover:border-black shadow-xl">
+        Back to Manage Flight
+      </button>
+    </div>
+    </div>
+</body>
+<script>
+    function redirectTo(url) {
+      window.location.href = url;
+    }
+</script>
+</html>

@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flightoh</title>
+    <!-- tailwind cdn link -->
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- add blow three cdn link for run autoserch feature -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+    <style>
+      .carousel-item-1 {
+      background-image: url("/media/media/home_background.jpg");
+    }
+    .carousel-item-2 {
+      background-image: url("/media/media/home_background2.jpg");
+    }
+    .carousel-item-3 {
+      background-image: url("/media/media/home_background3.jpg");
+    }
+    </style>
+<body>
+  {% include 'navbar.html' %}
+
+  <div id="carousel" class="w-full py-4  bg-center bg-cover flex items-center justify-center">
+    <div class="flex justify-center items-center">
+      <form class="px-2 py-7" id="form" action="/fetchflights/" method="POST">
+        {% csrf_token %}
+        <label class=" block text-black font-bold text-xl mb-2" data-provide="typeahead"  for="depart">Depart</label>
+        <input id="depart" class="typeahead bg-white rounded-lg p-2 w-full" name="depart" data-provide="typeahead" type="text">
+        <span class="text-red-500 text-md font-bold block" id="depart_error"></span>
+        <label class="block text-gray-900 font-bold text-xl mb-2" for="arrive">
+          Arrive
+        </label>
+        <input id="arrive" class="typeahead bg-white rounded-lg p-2 w-full" name="arrive"  data-provide="typeahead" type="text">
+        <span class="text-red-500 text-md font-bold block " id="arrive_error"></span>
+        <label class="block text-gray-900 font-bold text-xl mb-2 mt-4" for="depart_date">
+          Choose a date:
+        </label>
+        <input id="depart_date" class="bg-white rounded-lg p-2 w-full" name="depart_date"  type="date">
+        <span class="text-red-500 text-md  font-bold block" id="date_error"></span>
+        <label for="traveler_class" class="block text-gray-900 font-bold text-xl mb-2">Choose traveller class </label>
+        <select id="select_class" name="traveler_class" required class="block w-full py-2 pl-3 pr-10 mt-1 text-base bg-white border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+          <option value="option1">Economy</option>
+          <option value="option2">Business</option>
+          <option value="option3">premium Business</option>
+        </select>
+        <button class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 rounded-full mt-6 px-4 py-2 " type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+  {% include 'popularPlaces.html' %}
+  {% include 'footer.html' %}
+  <script src="https://unpkg.com/@themesberg/flowbite@1.1.1/dist/flowbite.bundle.js"></script>
+
+  <script>   
+        // nav bar feature 
+         // Toggle dropdown menu for flights button
+      function toggleDropdown() {
+        document.getElementById("dropdown").classList.toggle("hidden");
+      }
+      // Toggle dropdown menu for avatar
+      function toggleAvatarDropdown() {
+        document.getElementById("avatar-dropdown").classList.toggle("hidden");
+      }
+      // submit manage airline
+        const form = document.querySelector('#airline_login');
+        const submitBtn = document.querySelector('#airline_submit');
+        
+        submitBtn.addEventListener('click', (event) => {
+        event.preventDefault(); 
+        let input_airline_id = document.getElementById("airline_id").value;
+        const input_airline_password = document.getElementById("airline_password");
+        console.log(input_airline_id);
+        input_airline_id = input_airline_id.toString().slice(-3);
+        const action = `/manageflight/${input_airline_id}/`;
+        form.action = action;
+        form.submit(); // submit the form with the new action
+    });
+
+        // client side form validation
+        const input_depart = document.getElementById("depart");
+        const input_arrive = document.getElementById("arrive");
+        const input_date = document.getElementById("depart_date");
+        const fillup_form = document.getElementById("form")
+        const depart_Error = document.getElementById("depart_error")
+        const arrive_Error = document.getElementById("arrive_error")
+        const date_Error = document.getElementById("date_error")
+        const states = ['AHMEDABAD', 'SURAT', 'MUMBAI', 'HYDERABAD', 'BANGLORE', 'CHENNAI', 'KOLKATA', 'LUCKNOW', 'DELHI'];
+
+        fillup_form.addEventListener('submit', (event) => {
+
+        console.log(input_arrive.value + ' ' + input_depart.value);
+        if (!states.includes(input_depart.value)) {
+          depart_Error.textContent = 'Please enter a valid State Name';
+          arrive_Error.textContent = ''
+          event.preventDefault();
+        } 
+        else if(!states.includes(input_arrive.value) )
+        {
+          arrive_Error.textContent = 'Please enter a valid State Name';
+          depart_Error.textContent = ''
+          event.preventDefault();
+        }
+        else{
+          arrive_Error.textContent = '';
+          depart_Error.textContent = '';
+          const currentDate = new Date();
+          const inputDate = new Date(input_date.value);
+          // console.log(currentDate+" "+inputDate);
+          if (inputDate <= currentDate || input_date.value=='') {
+            console.log("old");
+            date_Error.textContent = 'Please enter a valid Date';
+            event.preventDefault();
+          }
+          else{
+            date_Error.textContent = '';
+          }
+        }
+      });
+      // airline_manager login completed
+      // Add event listener to open the modal
+            document.querySelector('a[href="#modal"]').addEventListener('click', function() {
+            document.querySelector('#modal').classList.remove('hidden');
+        });
+
+        // Add event listener to close the modal
+        document.querySelector('#modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+      // line by line search funtionally
+        var $input = $(".typeahead");
+        $input.typeahead({
+            source: ['AHMEDABAD', 'SURAT', 'MUMBAI', 'HYDERABAD', 'BANGLORE', 'CHENNAI', 'KOLKATA', 'LUCKNOW', 'DELHI'],
+            autoSelect: true,
+        });
+        $input.change(function () {
+            var current = $input.typeahead("getActive");
+            matches = [];
+            if (current) {
+                if (current.name == $input.val()) {
+                    matches.push(current.name);
+                }
+            }
+        });
+
+
+        // carosoul
+        const carousel = document.getElementById("carousel");
+        const images = ["carousel-item-1", "carousel-item-2", "carousel-item-3"];
+        let currentIndex = 0;
+
+        function changeBackground() {
+          currentIndex = (currentIndex + 1) % images.length;
+          carousel.classList.remove(...images);
+          carousel.classList.add(images[currentIndex]);
+        }
+        setInterval(changeBackground, 2000);
+    </script>
+</body>
+</html>
